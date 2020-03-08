@@ -36,9 +36,9 @@ data "aws_iam_policy_document" "must_encrypt" {
     }
     resources = ["${aws_s3_bucket.secure_bucket.arn}/*"]
     condition {
-      test     = "StringNotEquals"
+      test     = "StringEquals"
       variable = "s3:x-amz-server-side-encryption"
-      values   = ["aws:kms"]
+      values   = ["AES256"]
     }
   }
 
@@ -53,9 +53,9 @@ data "aws_iam_policy_document" "must_encrypt" {
     }
     resources = ["${aws_s3_bucket.secure_bucket.arn}/*"]
     condition {
-      test     = "Null"
-      variable = "s3:x-amz-server-side-encryption"
-      values   = ["true"]
+      test     = "StringNotLikeIfExists"
+      variable = "s3:x-amz-server-side-encryption-aws-kms-key-id"
+      values   = ["${aws_kms_key.bucket_key.arn}"]
     }
   }
 }
