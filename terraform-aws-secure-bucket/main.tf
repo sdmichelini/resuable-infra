@@ -26,9 +26,14 @@ resource "aws_s3_bucket" "secure_bucket" {
 
 data "aws_iam_policy_document" "must_encrypt" {
   statement {
-    sid = "DenyIncorrectEncryptionHeader"
+    sid    = "DenyIncorrectEncryptionHeader"
+    effect = "Deny"
 
-    actions   = ["s3:PutObject"]
+    actions = ["s3:PutObject"]
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
     resources = ["${aws_s3_bucket.secure_bucket.arn}/*"]
     condition {
       test     = "StringNotEquals"
@@ -38,9 +43,14 @@ data "aws_iam_policy_document" "must_encrypt" {
   }
 
   statement {
-    sid = "DenyNoEncryption"
+    sid    = "DenyNoEncryption"
+    effect = "Deny"
 
-    actions   = ["s3:PutObject"]
+    actions = ["s3:PutObject"]
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
     resources = ["${aws_s3_bucket.secure_bucket.arn}/*"]
     condition {
       test     = "Null"
