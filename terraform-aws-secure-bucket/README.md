@@ -1,6 +1,6 @@
 # Secure S3 Bucket
 
-Creates a secure S3 locked-down w/ some sensible default security policies.
+Using S3 is easy. Getting S3 right is hard. This module creates a secure S3 locked-down w/ some sensible default security policies.
 
 ## Default Policies
 
@@ -11,4 +11,5 @@ not encrypted with that KMS key.
 
 ### Private
 
-The S3 bucket is private and not exposed to the internet.
+- The S3 bucket is private.
+- Public Access Block is in place for this bucket
